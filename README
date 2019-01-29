@@ -1,0 +1,27 @@
+Ce projet à pour but de créer un réseau de neuronne à partir de rien en Python.
+L'objectif est de mieux comprendre les réseaux de neurones. 
+
+Etape 1.
+
+#fait Créer une classe perceptron avec comme attributs : 
+
+poids
+fonction de normalisation (sigmoid..)
+taille de l'input
+biais
+
+et comme méthodes : 
+calcul de l'output (feed forward)
+
+Remarques : 
+les poids et input sont proches de 0 sinon le feedforward (avec sigmoid) renvoit
+facilement 0 ou 1. La sensibilité est importante si on veut, d'ou l'importance
+de normaliser les inputs pour ne pas arriver à un statu quo des poids dès 
+la première itération.
+
+Etape 2. Créer une classe couche.
+
+Une couche est composée de plusieurs neurones.
+Comment les représenter ? Tableau ? liste ? 
+
+Etape 3. Créer une classe modèle
