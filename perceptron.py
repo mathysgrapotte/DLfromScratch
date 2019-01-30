@@ -3,10 +3,17 @@ from math import *
 
 def sigmoid(x):
 	y =1/(1 + exp(-x))
-	return y 
+	return y
+
+def dsigmoid(x):
+	y=exp(-x)/((exp(-x)+1)**2)
 
 def RMSE(x,y):
 	z = (x-y)**2
+	return z
+
+def dxRMSE(x,y):
+	z = 2(x-y)
 	return z
 
 class Perceptron():
@@ -50,19 +57,20 @@ class Couche():
 
 	#La classe couche correspond à la définition d'une couche composée de plusieurs neurones.
 
-	def __init__(self,nb_neurones,function):
+	def __init__(self,nb_neurones,function,entry):
 		#initialise les perceptrons de la couche
-		neurones = [Perceptron(function)]
+		neurones = [Perceptron(function,entry)]
 		for i in range(nb_neurones-1):
-			neurones.append(Perceptron(function))
+			neurones.append(Perceptron(function,entry))
 		self.neurones = neurones
+		self.nb_neurones = nb_neurones
 
 	def compute_couche(self,input):
 		#calcul la sortie d'une couche
-		result = np.zeros(nb_neurones)
-		for i in range(nb_neurones):
+		result = np.zeros(self.nb_neurones)
+		for i in range(self.nb_neurones):
 			result[i] = self.neurones[i].compute(input)
-		return result 
+		return result
 
 class Reseau():
 
@@ -74,19 +82,35 @@ class Reseau():
 		self.input_size = input_size
 
 		#initialise les couches du réseau
-		couches = [Couche(couche_size,function)]
+		couches = [Couche(couche_size,function,entry = self.input_size)]
 		for i in range(nb_couches-1):
-			couches.append(Couche(couche_size,function))
+			couches.append(Couche(couche_size,function,entry=couche_size))
 
 		#initialisation de la fonction coût
 		self.cost_function = cost_function
 
 		#ajout de la couche de sortie
-		couches.append(Couche(output_size,function))
+		couches.append(Couche(output_size,function,entry=couche_size))
 
 		#fin de l'initialisation des couches du réseau
 		self.couches = couches
 
+	def feed_forward(self,entree):
 
-reseau = Reseau(1,sigmoid,RMSE)
-print(reseau.couches[0].neurones)
+		#Cette fonction calcule la sortie du réseau de neurones
+
+		if len(entree) != self.input_size:
+			raise NameError("l'entrée n'est pas de la bonne taille")
+		output = np.copy(entree)
+		for i in range(len(self.couches)):
+			output = self.couches[i].compute_couche(output)
+
+		return output
+
+reseau = Reseau(2,sigmoid,RMSE)
+#print(reseau.couches[0].neurones)
+#print(reseau.input_size)
+x=np.zeros(2)
+x[0]=4
+x[1]=2
+print(reseau.feed_forward(x))
