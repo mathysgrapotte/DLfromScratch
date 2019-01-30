@@ -12,6 +12,9 @@ biais
 
 et comme méthodes : 
 calcul de l'output (feed forward)
+modification des biais
+modification des poids
+modification de la fonction de normalisation
 
 Remarques : 
 les poids et input sont proches de 0 sinon le feedforward (avec sigmoid) renvoit
@@ -19,9 +22,64 @@ facilement 0 ou 1. La sensibilité est importante si on veut, d'ou l'importance
 de normaliser les inputs pour ne pas arriver à un statu quo des poids dès 
 la première itération.
 
-Etape 2. Créer une classe couche.
+Etape 2. Créer une classe couche. 
+#Fait
 
 Une couche est composée de plusieurs neurones.
-Comment les représenter ? Tableau ? liste ? 
+Comment les représenter : tableau numpy 
 
-Etape 3. Créer une classe modèle
+méthode : 
+calcul du résultat de la couche (feed forward)
+
+Etape 3. Créer une classe  (modèle) -> reseau
+#Fait 
+
+Un réseau est composé de plusieurs couches de plusieurs neurones
+
+méthode : feed forward
+#TODO : train
+
+
+###########################################################
+
+Etat des lieux de ce qui est fait et comment c'est organisé : 
+
+La classe Perceptron : 
+
+C'est la base du réseau, concrètement, il nous faut :
+* Une fonction de normalisation (sigmoid, RELU, LeakyRELU ...)
+* Un vecteur de poids 
+* Un biais
+
+La taille de l'input est pré-définie au moment de la création du perceptron.
+
+Elle doit concorder avec les poids. 
+#Idée
+On peut imaginer une fonction qui modifie la taille d'entrée si celle-ci ne correspond pas et ajoute des éléments 
+dans le vecteur poiids en conséquence.
+
+Le vecteur de poids est initialisé linéairement (np.linspace) entre 0 et 1.
+
+La classe Couche : 
+
+Elle est composé d'un ou plusieurs perceptrons. 
+Elle est initialisé avec un nb de neurones donné, avec une fonction d'activation donnée (passée en paramètre dans les perceptrons)
+et une taille d'input donnée (passée en paramètre dans les perceptron également).
+
+Les perceptrons des couches sont initialisés suivant l'initialisation des perceptrons. 
+
+La classe Reseau : 
+
+Elle est initialisé à partir de : 
+* Une taille d'input (vecteur d'entré du réseau)
+* Une fonction coût
+* Une fonction d'activation (passée en paramètre des couches et des perceptrons)
+* Un nb de couche
+* Une taille de couches (passée en paramètre de la classe couche).
+* Une taille d'output
+
+La limite du modèle actuel : ne permet pas de faire des couches de tailles différentes, n'inclue pas le dropout. 
+
+
+
+
